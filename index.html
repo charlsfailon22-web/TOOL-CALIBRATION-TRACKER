@@ -118,16 +118,22 @@ input,select,textarea{width:100%;padding:9px;border:1px solid #d5deea;border-rad
   });
 
   document.getElementById('googleAuthBtn').onclick = async () => {
-    if (currentUser) {
+  console.log("Login button was clicked!");
+  if (currentUser) {
+    try {
       await signOut(auth);
-    } else {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (err) {
-        alert("Sign in failed: " + err.message);
-      }
+    } catch (err) {
+      alert("Sign out failed: " + err.message);
     }
-  };
+  } else {
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      console.error("Firebase Auth Error:", err);
+      alert("Sign in failed [" + err.code + "]: " + err.message);
+    }
+  }
+};
 
   // Real-time Firestore Sync
   onSnapshot(collection(db, "equipment"), (snapshot) => {
