@@ -25,6 +25,8 @@ input,select,textarea{width:100%;padding:9px;border:1px solid #d5deea;border-rad
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "f9ac01aa-2f67-4f9c-ad77-d11385447041",
+      serviceWorkerParam: { scope: "/TOOL-CALIBRATION-TRACKER/" },
+      serviceWorkerPath: "TOOL-CALIBRATION-TRACKER/OneSignalSDKWorker.js"
     });
   });
 </script>
