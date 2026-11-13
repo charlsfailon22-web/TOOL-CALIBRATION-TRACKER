@@ -18,7 +18,17 @@ input,select,textarea{width:100%;padding:9px;border:1px solid #d5deea;border-rad
 .timeline{border-left:2px solid #d8e3f0;padding-left:15px;margin:12px 0}.event{margin:0 0 14px;position:relative}.event:before{content:"";position:absolute;left:-20px;top:5px;width:8px;height:8px;background:var(--blue);border-radius:50%}.event time{font-size:11px;color:var(--muted)}.event p{margin:3px 0}
 @media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.grid,.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
 @media print{header,nav,.notice,.no-print,footer{display:none!important}body{background:white}main{margin:0;max-width:none}.panel{display:none!important}#reports{display:block!important}.box,.card{box-shadow:none}}
-</style></head><body>
+</style>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "f9ac01aa-2f67-4f9c-ad77-d11385447041",
+    });
+  });
+</script>
+</head><body>
 <header><div><h1>✈ AMT Calibration Tracker</h1><p>Aircraft Maintenance Training Equipment · Student Capstone Prototype</p></div><small>Offline browser-based system</small></header>
 <main>
 <div class="notice"><b>Scope:</b> This prototype tracks entered equipment and calibration records. It does not physically calibrate tools, verify measurement accuracy, certify equipment, or replace an authorized calibration procedure.</div>
