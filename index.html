@@ -96,4 +96,23 @@ document.getElementById('search').oninput=renderEquipment;document.getElementByI
 csvBtn=()=>exportEq();document.getElementById('csv').onclick=exportEq;auditCsv.onclick=exportAudit;auditCsv2.onclick=exportAudit;document.getElementById('print').onclick=()=>window.print();refresh.onclick=()=>{alerts.innerHTML=alertsHtml()};
 enableNotify.onclick=async()=>{if(!('Notification'in window)){alert('Browser notifications are not supported. Use the in-app alert list.');return}let p=await Notification.requestPermission();if(p==='granted'){let n=records.filter(r=>['Due Soon','Overdue'].includes(getStatus(r))).length;new Notification('AMT Calibration Tracker',{body:n?n+' equipment record(s) need attention.':'No due-soon or overdue records.'})}else alert('Permission not granted. In-app alerts remain available.')};
 render();
+<script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+      import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+      import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAd3-dbH_Mb5jIh3ahXDcs1pG5nUK168eY",
+        authDomain: "tool-calibration-tracker-7ed67.firebaseapp.com",
+        projectId: "tool-calibration-tracker-7ed67",
+        storageBucket: "tool-calibration-tracker-7ed67.firebasestorage.app",
+        messagingSenderId: "341299624018",
+        appId: "1:341299624018:web:62b21ceb783ac32a41078b",
+        measurementId: "G-1MFW7FS4EY"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      const provider = new GoogleAuthProvider();
 </script></body></html>
