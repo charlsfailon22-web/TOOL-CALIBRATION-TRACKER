@@ -418,20 +418,40 @@ serviceWorkerPath: "OneSignalSDKWorker.js"
   if(printElem) printElem.onclick = () => window.print();
   let refreshElem = document.getElementById('refresh');
   if(refreshElem) refreshElem.onclick = () => { let a = document.getElementById('alerts'); if(a) a.innerHTML = alertsHtml(); };
-
   let enableNotify = document.getElementById('enableNotify');
-  if(enableNotify) {
-    enableNotify.onclick = async () => {
-      if(!('Notification' in window)) { alert('Browser notifications are not supported.'); return; }
-      let p = await Notification.requestPermission();
-      if(p === 'granted') {
-        let n = records.filter(r => ['Due Soon','Overdue'].includes(getStatus(r))).length;
-        new Notification('AMT Calibration Tracker', { body: n ? n + ' equipment record(s) need attention.' : 'No due-soon or overdue records.' });
+if (enableNotify) {
+  enableNotify.onclick = async () => {
+    try {
+      // 1. Trigger OneSignal's native permission & subscription flow
+      if (window.OneSignalDeferred) {
+        window.OneSignalDeferred.push(async function(OneSignal) {
+          await OneSignal.Notifications.requestPermission();
+          await OneSignal.User.PushSubscription.optIn();
+        });
+      } else if ('Notification' in window) {
+        await Notification.requestPermission();
       } else {
-        alert('Permission not granted.');
+        alert('Browser notifications are not supported in this browser.');
+        return;
       }
-    };
-  }
+
+      // 2. Display immediate status notification via Service Worker (works on Android & Desktop)
+      if (Notification.permission === 'granted') {
+        let n = records.filter(r => ['Due Soon', 'Overdue'].includes(getStatus(r))).length;
+        let msg = n ? n + ' equipment record(s) due soon or overdue.' : 'Browser notifications enabled!';
+        if ('serviceWorker' in navigator) {
+          const reg = await navigator.serviceWorker.ready;
+          await reg.showNotification('AMT Calibration Tracker', { body: msg });
+        } else {
+          new Notification('AMT Calibration Tracker', { body: msg });
+        }
+      }
+    } catch (err) {
+      console.error('Notification error:', err);
+      alert('Notification setup notice: ' + err.message);
+    }
+  };
+}
 </script>
 </body>
 </html>
