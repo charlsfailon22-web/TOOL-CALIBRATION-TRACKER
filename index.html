@@ -32,10 +32,11 @@ input,select,textarea{width:100%;padding:9px;border:1px solid #d5deea;border-rad
     await OneSignal.init({
 appId: "f9ac01aa-2f67-4f9c-ad77-d11385447041",
       serviceWorkerParam: { scope: "/" },
-serviceWorkerPath: "OneSignalSDKWorker.js"
+serviceWorkerPath: "sw.js"
     });
   });
 </script>
+<link rel="manifest" href="./manifest.json" />
 </head><body>
 <header>
   <div><h1>✈ AMT Calibration Tracker</h1><p>Aircraft Maintenance Training Equipment · Student Capstone Prototype</p></div>
