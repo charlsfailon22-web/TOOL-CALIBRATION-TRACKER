@@ -77,7 +77,7 @@ serviceWorkerPath: "sw.js"
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
   import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
-  import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+  import { getFirestore, initializeFirestore, persistentLocalCache, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, onSnapshot  } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAd3-dbH_Mb5jIh3ahXDcs1pG5nUK168eY",
@@ -91,7 +91,9 @@ serviceWorkerPath: "sw.js"
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
+  const db = initializeFirestore(app, {
+  localCache: persistentLocalCache()
+});
   const provider = new GoogleAuthProvider();
 
   let records = [];
